@@ -2,6 +2,11 @@
 
 A full-stack e-commerce application with a React frontend and Node.js backend.
 
+## Live Demo
+
+- **Frontend:** https://pulsenow-task.vercel.app/
+- **Backend API:** https://pulsenow-back.vercel.app/
+
 ## Project Structure
 
 ```
