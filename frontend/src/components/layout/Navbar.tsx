@@ -1,5 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '@/context/AuthContext'
+import { getCategories } from '@/services/api'
 import { Button } from '@/components/ui/button'
 import CartSheet from '@/components/cart/CartSheet'
 import {
@@ -9,6 +11,7 @@ import {
   Sparkles,
   Package,
   ChevronDown,
+  LayoutGrid,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState, useRef, useEffect } from 'react'
@@ -17,7 +20,16 @@ export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth()
   const location = useLocation()
   const [showUserMenu, setShowUserMenu] = useState(false)
+  const [showCollections, setShowCollections] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const collectionsRef = useRef<HTMLDivElement>(null)
+
+  // Fetch categories
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+    select: (data) => data.data.filter((c) => !c.parentId), // Only parent categories
+  })
 
   const isActive = (path: string) => {
     return (
@@ -25,11 +37,14 @@ export default function Navbar() {
     )
   }
 
-  // Close menu on outside click
+  // Close menus on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setShowUserMenu(false)
+      }
+      if (collectionsRef.current && !collectionsRef.current.contains(event.target as Node)) {
+        setShowCollections(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -68,6 +83,56 @@ export default function Navbar() {
                 Products
               </Button>
             </Link>
+
+            {/* Collections Dropdown */}
+            <div className="relative" ref={collectionsRef}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowCollections(!showCollections)}
+                className={cn(
+                  'rounded-full px-4 transition-all',
+                  showCollections
+                    ? 'bg-secondary font-medium'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <LayoutGrid className="h-4 w-4 mr-1.5" />
+                Collections
+                <ChevronDown
+                  className={cn(
+                    'h-4 w-4 ml-1 transition-transform',
+                    showCollections && 'rotate-180'
+                  )}
+                />
+              </Button>
+
+              {showCollections && (
+                <div className="absolute left-0 top-full mt-2 w-56 rounded-xl border border-border bg-card p-1.5 shadow-lg animate-scale-in">
+                  {categories?.map((category) => (
+                    <Link
+                      key={category.id}
+                      to={`/products?category=${category.id}`}
+                      onClick={() => setShowCollections(false)}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-secondary"
+                    >
+                      <img
+                        src={category.image}
+                        alt={category.name}
+                        className="h-8 w-8 rounded-lg object-cover"
+                      />
+                      <div>
+                        <p className="font-medium">{category.name}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-1">
+                          {category.description}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {isAuthenticated && (
               <Link to="/orders">
                 <Button

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { useProducts } from '@/hooks/useProducts'
@@ -29,6 +29,7 @@ import {
   Star,
   Grid3X3,
   LayoutGrid,
+  Layers,
 } from 'lucide-react'
 import { ErrorState } from '@/components/ui/error-state'
 import { PageHeader, PageHeaderBadge } from '@/components/layout/PageHeader'
@@ -67,6 +68,18 @@ export default function Products() {
     (searchParams.get('view') as 'grid' | 'large') || 'grid'
   )
 
+  // Sync URL params to filters state when URL changes (e.g., from navbar navigation)
+  useEffect(() => {
+    const newFilters = parseFiltersFromParams(searchParams)
+    setFilters(newFilters)
+    setSearch(searchParams.get('search') || '')
+    setPriceRange([
+      Number(searchParams.get('minPrice')) || 0,
+      Number(searchParams.get('maxPrice')) || 500,
+    ])
+    setViewMode((searchParams.get('view') as 'grid' | 'large') || 'grid')
+  }, [searchParams])
+
   // Sync filters to URL
   const syncFiltersToUrl = useCallback((newFilters: ProductFilters, view?: 'grid' | 'large') => {
     const params = new URLSearchParams()
@@ -86,7 +99,7 @@ export default function Products() {
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
-    select: (data) => data.data.categories,
+    select: (data) => data.data,
   })
 
   const { data, isLoading, error } = useProducts(filters)
@@ -164,17 +177,32 @@ export default function Products() {
     return categories?.find((c) => c.id === categoryId)?.name || categoryId
   }
 
+  // Get the selected category object
+  const selectedCategory = filters.category
+    ? categories?.find((c) => c.id === filters.category)
+    : null
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <PageHeader
         badge={
-          <PageHeaderBadge icon={<Sparkles className="h-4 w-4" />}>
-            Curated Collection
-          </PageHeaderBadge>
+          selectedCategory ? (
+            <PageHeaderBadge icon={<Layers className="h-4 w-4" />}>
+              Collection
+            </PageHeaderBadge>
+          ) : (
+            <PageHeaderBadge icon={<Sparkles className="h-4 w-4" />}>
+              Curated Collection
+            </PageHeaderBadge>
+          )
         }
-        title="Discover Products"
-        description="Explore our handpicked selection of premium products"
+        title={selectedCategory ? selectedCategory.name : 'Discover Products'}
+        description={
+          selectedCategory
+            ? selectedCategory.description
+            : 'Explore our handpicked selection of premium products'
+        }
       />
 
       {/* Filter Bar */}

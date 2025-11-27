@@ -49,8 +49,8 @@ export default function Checkout() {
   })
   const [paymentMethod, setPaymentMethod] = useState<'credit_card' | 'paypal'>('credit_card')
 
-  const shipping = 0 // Free shipping
-  const tax = subtotal * 0.1 // 10% tax
+  const shipping = 15.99 // Fixed shipping
+  const tax = subtotal * 0.08 // 8% tax
   const total = subtotal + shipping + tax
 
   const createOrderMutation = useMutation({
@@ -316,10 +316,10 @@ export default function Checkout() {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Shipping</span>
-                    <span className="text-green-600">Free</span>
+                    <span>${shipping.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Tax (10%)</span>
+                    <span className="text-muted-foreground">Tax (8%)</span>
                     <span>${tax.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between font-serif text-xl pt-3 border-t border-border">

@@ -34,7 +34,10 @@ export default function Orders() {
   } = useQuery({
     queryKey: ['orders'],
     queryFn: getOrders,
-    select: (data) => data.data,
+    select: (data) =>
+      [...data.data].sort((a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      ),
   })
 
   if (isLoading) {
