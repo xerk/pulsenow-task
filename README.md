@@ -1,4 +1,49 @@
-# Luxe Market - Frontend
+# Luxe Market
+
+A full-stack e-commerce application with a React frontend and Node.js backend.
+
+## Project Structure
+
+```
+├── frontend/          # React frontend application
+├── backend/           # Node.js backend API
+└── README.md          # This file
+```
+
+## Quick Start
+
+### Clone the repository
+
+```bash
+git clone https://github.com/xerk/pulsenow-task.git
+cd pulsenow-task
+```
+
+### Backend Setup
+
+```bash
+cd backend
+pnpm install
+pnpm dev
+```
+
+The API will be available at `http://localhost:3000`
+
+> For more details, see the [Backend README](./backend/README.md)
+
+### Frontend Setup
+
+```bash
+cd frontend
+pnpm install
+pnpm dev
+```
+
+The app will be available at `http://localhost:5173`
+
+---
+
+# Frontend Documentation
 
 A modern e-commerce frontend built with React 19, TypeScript, and Tailwind CSS.
 
@@ -27,40 +72,7 @@ A modern e-commerce frontend built with React 19, TypeScript, and Tailwind CSS.
 - **shadcn/ui** - UI components
 - **Lucide React** - Icons
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- pnpm
-
-### Installation
-
-```bash
-pnpm install
-```
-
-### Development
-
-```bash
-pnpm dev
-```
-
-The app will be available at `http://localhost:5173`
-
-### Build
-
-```bash
-pnpm build
-```
-
-### Preview Production Build
-
-```bash
-pnpm preview
-```
-
-## Project Structure
+## Frontend Project Structure
 
 ```
 src/
@@ -150,7 +162,7 @@ src/
 
 ## Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the `frontend` directory:
 
 ```env
 VITE_API_URL=http://localhost:3000/api
