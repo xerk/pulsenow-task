@@ -36,10 +36,28 @@ The API will be available at `http://localhost:3000`
 ```bash
 cd frontend
 pnpm install
+```
+
+Create a `.env` file in the `frontend` directory:
+
+```env
+VITE_API_URL=http://localhost:3000/api
+```
+
+Start the development server:
+
+```bash
 pnpm dev
 ```
 
 The app will be available at `http://localhost:5173`
+
+### Test Credentials
+
+```
+Email: john.doe@example.com
+Password: password123
+```
 
 ---
 
@@ -159,21 +177,6 @@ src/
 ### Profile
 - View/edit user profile
 - Address management
-
-## Environment Variables
-
-Create a `.env` file in the `frontend` directory:
-
-```env
-VITE_API_URL=http://localhost:3000/api
-```
-
-## Test Credentials
-
-```
-Email: john.doe@example.com
-Password: password123
-```
 
 ## API Integration
 
