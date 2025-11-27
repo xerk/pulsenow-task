@@ -25,7 +25,7 @@ export const shippingAddressSchema = z.object({
 export const checkoutSchema = z.object({
   shippingAddress: shippingAddressSchema,
   paymentMethod: z.enum(['credit_card', 'paypal'], {
-    required_error: 'Please select a payment method',
+    message: 'Please select a payment method',
   }),
 })
 

@@ -128,7 +128,6 @@ function OrderCard({ order, index }: { order: Order; index: number }) {
   }
 
   const status = statusConfig[order.status] || statusConfig.pending
-  const StatusIcon = status.icon
 
   return (
     <div
