@@ -451,8 +451,8 @@ const generateOrders = () => {
       ],
       subtotal: 239.98,
       tax: 19.20,
-      shipping: 10.99,
-      total: 270.17,
+      shipping: 15.99,
+      total: 275.17,
       status: 'shipped',
       shippingAddress: {
         street: '123 Main St',
@@ -485,8 +485,8 @@ const generateOrders = () => {
       ],
       subtotal: 78.96,
       tax: 6.32,
-      shipping: 5.99,
-      total: 91.27,
+      shipping: 15.99,
+      total: 101.27,
       status: 'pending',
       shippingAddress: {
         street: '321 Elm St',
